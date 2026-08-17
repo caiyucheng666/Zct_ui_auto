@@ -1,0 +1,103 @@
+# 企业工作创作 —— 数据驱动用例数据
+#
+# 覆盖 8 个功能模块的「完整生成流程」（填写表单 → 提交 → 等待 AI 生成完成 → 断言结果）：
+#   项目申报：政策解读 / 项目方向挖掘 / 立项报告生成 / 项目方案生成
+#   知产申报：技术交底书生成 / 权利要求书生成 / 专利说明书生成 / 查找相似专利
+#
+# 字段说明：
+#   url_keyword  —— 功能路由关键字（用于导航断言 + 详情页判断）
+#   submit_button—— 提交按钮文案；政策解读无提交按钮（选文件即触发），留空
+#   result_hint   —— 生成结果中应出现的内容关键字（用于断言生成成功）
+#   fill          —— 表单填写配置（键对应 WorkFeaturePage.fill_form 的填写动作）
+
+# 工作创作页应展示的全部功能入口
+feature_names:
+  - 政策解读
+  - 项目方向挖掘
+  - 立项报告生成
+  - 项目方案生成
+  - 技术交底书生成
+  - 权利要求书生成
+  - 专利说明书生成
+  - 查找相似专利
+
+# 各功能详情
+features:
+  - name: "政策解读"
+    url_keyword: "policyElucidation"
+    submit_button: "解读"
+    no_submit_on_generate: true
+    result_hint: "一句话解读"
+    skip_reason: "已验证通过，避免重复消耗职策点；需验证生成流程时移除本标记"
+    fill:
+      policy_file: true
+
+  - name: "项目方向挖掘"
+    url_keyword: "projectDirectionMining"
+    submit_button: "项目挖掘"
+    result_hint: "文件抽取解析结果"
+    skip_reason: "已验证可生成（仅需导入知识库文件，其余字段用持久化草稿值）；避免重复消耗职策点，需验证时移除本标记"
+    fill:
+      import_kb_file: true
+
+  - name: "立项报告生成"
+    url_keyword: "projectReportGeneration"
+    submit_button: "下一步"
+    result_hint: "内容由AI生成"
+    skip_reason: "多步向导（基本信息→项目概述→项目立项），已支持两步填写；待职策点充足后验证，需验证时移除本标记"
+    fill:
+      project_name: "面向超高清显控终端的嵌入式驱动软件平台研发"
+      start_date: "2024-01-01"
+      end_date: "2025-12-31"
+      amount: "100"
+      unit: "浙江深佳科技有限公司"
+      import_kb_file: true
+      step2:
+        template: "标准型"
+        budget: "100"
+
+  - name: "项目方案生成"
+    url_keyword: "projectProposalGeneration"
+    submit_button: "下一步"
+    result_hint: "内容由AI生成"
+    skip_reason: "已修复（需参考文件+基本信息）；待职策点充足后验证，需验证时移除本标记"
+    fill:
+      project_name: "面向超高清显控终端的嵌入式驱动软件平台研发"
+      start_date: "2024-01-01"
+      end_date: "2025-12-31"
+      amount: "100"
+      people: "10"
+      description: "研发一套面向超高清显控终端的嵌入式驱动软件平台，实现多路视频信号的采集、处理与显示控制。"
+      import_kb_file: true
+
+  - name: "技术交底书生成"
+    url_keyword: "technical"
+    submit_button: "下一步"
+    result_hint: "核心技术创新点"
+    skip_reason: "已验证通过，避免重复消耗职策点；需验证生成流程时移除本标记"
+    fill:
+      description: "一种基于物联网的智能恒温控制系统，通过温度传感器实时采集环境温度，结合模糊控制算法动态调节加热功率，实现±0.5℃的控温精度。应用领域：智能家居温控、工业恒温设备。关键指标：控温精度±0.5℃、响应时间<1s。"
+
+  - name: "权利要求书生成"
+    url_keyword: "claims"
+    submit_button: "生成权利要求书"
+    result_hint: "本步已完成"
+    skip_reason: "已验证通过，避免重复消耗职策点；需验证生成流程时移除本标记"
+    fill:
+      description: "一种基于物联网的智能恒温控制系统，通过温度传感器实时采集环境温度，结合模糊控制算法动态调节加热功率，实现±0.5℃的控温精度。应用领域：智能家居温控。关键指标：控温精度±0.5℃、响应时间<1s。"
+
+  - name: "专利说明书生成"
+    url_keyword: "patent"
+    submit_button: "生成专利说明书"
+    result_hint: "背景技术"
+    skip_reason: "已验证通过，避免重复消耗职策点；需验证生成流程时移除本标记"
+    fill:
+      description: "一种基于物联网的智能恒温控制系统，通过温度传感器实时采集环境温度，结合模糊控制算法动态调节加热功率，实现±0.5℃的控温精度。应用领域：智能家居温控。关键指标：控温精度±0.5℃、响应时间<1s。"
+
+  - name: "查找相似专利"
+    url_keyword: "similarPatents"
+    submit_button: "生成查找专利结果"
+    result_hint: "专利申请号"
+    skip_reason: "已验证通过，避免重复消耗职策点；需验证生成流程时移除本标记"
+    fill:
+      description: "一种基于物联网的智能恒温控制系统，通过温度传感器实时采集环境温度，结合模糊控制算法动态调节加热功率，实现±0.5℃的控温精度。应用领域：智能家居温控。关键指标：控温精度±0.5℃、响应时间<1s。"

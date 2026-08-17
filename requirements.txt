@@ -1,0 +1,13 @@
+# UI 自动化测试依赖清单
+# 安装：pip install -r requirements.txt
+
+selenium~=4.36.0
+pytest~=8.2.2
+pytest-html
+pytest-xdist
+pytest-order
+pytest-rerunfailures
+pytest-base_url
+allure-pytest
+allure-python-commons~=2.13.5
+pyyaml

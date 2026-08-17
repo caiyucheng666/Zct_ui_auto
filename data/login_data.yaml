@@ -1,0 +1,20 @@
+# 登录功能 —— 数据驱动用例数据
+
+# 登录成功：正确账号密码登录后，弹出"请选择登录身份"弹窗
+login_success:
+  - name: "正确账号密码登录成功"
+    mobile: "13142886588"
+    password: "cyc02918"
+    expect_title: "请选择登录身份"
+
+# 登录失败
+login_fail:
+  - name: "密码错误提示"
+    mobile: "13142886588"
+    password: "wrongpass1"
+    expect_toast: "登录失败，账号密码不正确"
+
+  - name: "密码为空时登录按钮禁用"
+    mobile: "13142886588"
+    password: ""
+    expect_disabled: true
