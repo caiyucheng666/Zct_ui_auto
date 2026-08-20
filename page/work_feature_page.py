@@ -19,7 +19,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 
-from commons.base_page import BasePage
+from page.base_page import BasePage
 
 logger = logging.getLogger(__name__)
 

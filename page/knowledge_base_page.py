@@ -23,7 +23,7 @@ import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
-from commons.base_page import BasePage
+from page.base_page import BasePage
 
 logger = logging.getLogger(__name__)
 
@@ -232,6 +232,50 @@ class KnowledgeBasePage(BasePage):
     @allure.step("等待文件卡片出现：{name}")
     def file_exists(self, name, timeout=10):
         return self.is_exist(self._file_card(name), timeout=timeout)
+
+    # ==================== 收藏与图谱面板 ====================
+
+    # 「我的收藏」「知识图谱」为根页入口，点开的是同 URL 上的抽屉/面板
+    # （实测校准：仍在 /knowledgBase/mine?siteMode=c，不跳转页面）
+    favorites_btn = (By.XPATH, '//button[normalize-space(.)="我的收藏"]')
+    graph_btn = (By.XPATH, '//button[normalize-space(.)="知识图谱"]')
+
+    # 收藏分类 Tab（我的收藏面板）
+    fav_categories = ["全部", "政策", "协会", "荣誉", "高校", "文献", "国标", "行标", "会议"]
+    # 图谱节点筛选（知识图谱面板）
+    graph_filters = [
+        "用户", "学校", "公司", "组织", "教育经历", "工作经历", "项目",
+        "获奖", "荣誉", "论文", "专利", "软著", "培训", "能力", "行业", "其他",
+    ]
+
+    def _panel_btn(self, name):
+        return (By.XPATH, f'//button[normalize-space(.)="{name}"]')
+
+    @allure.step("打开「我的收藏」面板")
+    def open_favorites(self):
+        """点击「我的收藏」，等待面板加载（出现「项收藏」计数）。"""
+        self.click_js(self.favorites_btn)
+        self.wait_body_text("项收藏", timeout=10)
+        return self
+
+    @allure.step("打开「知识图谱」面板")
+    def open_graph(self):
+        """点击「知识图谱」，等待关系图加载（出现「人物关系图」）。"""
+        self.click_js(self.graph_btn)
+        self.wait_body_text("人物关系图", timeout=10)
+        return self
+
+    @allure.step("切换收藏分类：{category}")
+    def click_fav_category(self, category):
+        """点击收藏面板的分类 Tab（全部/政策/协会/荣誉/高校/文献/国标/行标/会议）。"""
+        self.click(self._panel_btn(category))
+        return self
+
+    @allure.step("切换图谱节点筛选：{name}")
+    def click_graph_filter(self, name):
+        """点击知识图谱的节点筛选（用户/学校/公司/组织…）。"""
+        self.click(self._panel_btn(name))
+        return self
 
     # ==================== 搜索 ====================
 

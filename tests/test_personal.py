@@ -7,8 +7,8 @@
 import allure
 import pytest
 
-from commons.config import ACCOUNT
-from commons.login_page import LoginPage
+from utils.config import ACCOUNT
+from page.login_page import LoginPage
 
 
 @allure.epic("职策佳平台")

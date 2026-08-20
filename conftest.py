@@ -13,7 +13,7 @@ from allure_commons.types import AttachmentType
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 
-from commons.config import CHROMEDRIVER_PATH
+from utils.config import CHROMEDRIVER_PATH
 
 
 @pytest.fixture(scope="function")

@@ -16,8 +16,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
-from commons.base_page import BasePage
-from commons.config import BASE_URL, IDENTITY_ENTERPRISE, IDENTITY_PERSONAL
+from page.base_page import BasePage
+from utils.config import BASE_URL, IDENTITY_ENTERPRISE, IDENTITY_PERSONAL
 
 logger = logging.getLogger(__name__)
 
@@ -108,7 +108,7 @@ class LoginPage(BasePage):
         :return: PersonalHomePage 实例
         """
         self.click(self.personal_option)
-        from commons.personal_page import PersonalHomePage
+        from page.personal_page import PersonalHomePage
         return PersonalHomePage(self.driver)
 
     @allure.step("选择企业身份登录")
@@ -118,7 +118,7 @@ class LoginPage(BasePage):
         :return: EnterpriseHomePage 实例
         """
         self.click(self.enterprise_option)
-        from commons.enterprise_page import EnterpriseHomePage
+        from page.enterprise_page import EnterpriseHomePage
         return EnterpriseHomePage(self.driver)
 
     @allure.step("获取身份选择弹窗标题")

@@ -16,7 +16,7 @@ import time
 import allure
 from selenium.webdriver.common.by import By
 
-from commons.base_page import BasePage
+from page.base_page import BasePage
 
 logger = logging.getLogger(__name__)
 
@@ -71,7 +71,7 @@ class WorkCreationPage(BasePage):
             time.sleep(1)
             if "workcreation" not in self.driver.current_url.lower():
                 break
-        from commons.work_feature_page import WorkFeaturePage
+        from page.work_feature_page import WorkFeaturePage
         return WorkFeaturePage(self.driver, case)
 
     @allure.step("判断功能入口是否展示")

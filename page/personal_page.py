@@ -10,7 +10,7 @@ import logging
 import allure
 from selenium.webdriver.common.by import By
 
-from commons.base_page import BasePage
+from page.base_page import BasePage
 
 logger = logging.getLogger(__name__)
 

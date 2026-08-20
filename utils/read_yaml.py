@@ -6,7 +6,7 @@ YAML 数据驱动读取工具。
 测试用例通过本模块按需读取，实现"数据与代码分离"。
 
 用法示例：
-    from commons.read_yaml import read_yaml
+    from utils.read_yaml import read_yaml
 
     data = read_yaml("login_data.yaml")   # 读取整个文件，返回 dict
     cases = data["login_fail"]            # 取某一组用例数据
@@ -15,7 +15,7 @@ import os
 
 import yaml
 
-from commons.config import DATA_DIR
+from utils.config import DATA_DIR
 
 
 def read_yaml(filename):

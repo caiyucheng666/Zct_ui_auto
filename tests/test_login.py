@@ -10,11 +10,26 @@
 import allure
 import pytest
 
-from commons.login_page import LoginPage
-from commons.read_yaml import read_yaml
+from utils.config import ACCOUNT
+from page.login_page import LoginPage
+from utils.read_yaml import read_yaml
 
 # 从 YAML 读取登录用例数据
 _login_data = read_yaml("login_data.yaml")
+
+
+def _with_account(cases, real_password=False):
+    """把 YAML 用例与账号数据合并：手机号一律注入 ACCOUNT（环境变量）；
+    登录成功场景的密码也用真实账号密码，其余场景保留 YAML 里的错误/空密码。
+    """
+    params = []
+    for c in cases:
+        d = dict(c)
+        d["mobile"] = ACCOUNT["mobile"]
+        if real_password:
+            d["password"] = ACCOUNT["password"]
+        params.append(pytest.param(d, id=d["name"]))
+    return params
 
 
 @allure.epic("职策佳平台")
@@ -27,8 +42,7 @@ class TestLogin:
     @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     @pytest.mark.parametrize(
         "case",
-        _login_data["login_success"],
-        ids=lambda c: c["name"],
+        _with_account(_login_data["login_success"], real_password=True),
     )
     def test_login_success(self, driver, screenshot_on_end, case):
         """正确账号密码登录后，应弹出身份选择弹窗。"""
@@ -43,8 +57,7 @@ class TestLogin:
     @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     @pytest.mark.parametrize(
         "case",
-        _login_data["login_fail"],
-        ids=lambda c: c["name"],
+        _with_account(_login_data["login_fail"]),
     )
     def test_login_fail(self, driver, screenshot_on_end, case):
         """密码错误 / 密码为空时的校验提示。"""
