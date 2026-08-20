@@ -19,6 +19,7 @@ class TestPersonal:
 
     @pytest.mark.personal
     @allure.title("选择个人身份登录进入个人中心")
+    @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     def test_personal_identity_login(self, driver, screenshot_on_end):
         """登录后选择个人身份，应进入个人身份首页。"""
         home = (

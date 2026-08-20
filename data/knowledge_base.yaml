@@ -1,0 +1,53 @@
+# 知识库 —— 数据驱动用例数据
+#
+# 覆盖场景：
+#   进入 / 列表展示 / 上传（全格式）/ 上传校验 / 搜索 / 删除
+#
+# 上传样例文件由 tests/test_knowledge_base.py 启动时自动生成到 temps/test_files/，
+# 这里只保存文件名（相对样例目录）。
+
+# 页面特征
+page:
+  url_keyword: "knowledgBase"     # 知识库页路由关键字（注意平台拼写为 knowledgBase）
+  title_mark: "知识库"             # 页面特征文案
+
+# 上传成功：支持的 5 种格式全验证
+upload_supported:
+  - name: "PDF 格式上传成功"
+    file: "kb_sample.pdf"
+  - name: "DOC 格式上传成功"
+    file: "kb_sample.doc"
+  - name: "DOCX 格式上传成功"
+    file: "kb_sample.docx"
+  - name: "PPT 格式上传成功"
+    file: "kb_sample.ppt"
+  - name: "PPTX 格式上传成功"
+    file: "kb_sample.pptx"
+
+# 上传校验：不支持的类型（前端拒绝，不产生文件）
+upload_unsupported:
+  - name: "EXE 类型被拒绝"
+    file: "kb_sample.exe"
+  - name: "ZIP 类型被拒绝"
+    file: "kb_sample.zip"
+  - name: "TXT 类型被拒绝"
+    file: "kb_sample.txt"
+
+# 上传校验：超大文件（>20MB，弹窗声明"大小: 20MB"，前端拒绝：完成按钮置灰）
+upload_oversized:
+  file: "kb_big.docx"
+
+# 搜索命中：按文件夹名过滤文件夹卡片（平台搜索索引仅收录已处理的文件，
+# 新上传文件处理完成前搜不到，故用稳定存在的文件夹名做命中断言）
+search_hit:
+  - name: "文件夹名命中：项目材料"
+    keyword: "项目材料"
+    filtered_out: "未分类"
+  - name: "文件夹名命中：获奖情况"
+    keyword: "获奖情况"
+    filtered_out: "未分类"
+
+# 搜索无结果：不存在的关键字
+search_no_result:
+  - name: "不存在的关键字"
+    keyword: "zzz_no_such_file_xyz"

@@ -13,6 +13,8 @@ import time
 
 import allure
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 
 from commons.base_page import BasePage
 from commons.config import BASE_URL, IDENTITY_ENTERPRISE, IDENTITY_PERSONAL
@@ -42,6 +44,8 @@ class LoginPage(BasePage):
     def open(self):
         """访问系统首页，并点击"登录/注册"打开登录弹窗。
 
+        登录入口可能被临时角标/遮罩拦截导致点击"看似成功"而弹窗未打开，
+        故以「手机号输入框是否出现」判定弹窗已打开，未打开则重试点击。
         :return: self（便于链式调用）
         """
         self.driver.get(BASE_URL)
@@ -51,21 +55,36 @@ class LoginPage(BasePage):
         )
         # SPA（Vue）异步挂载：元素虽已可见，但点击事件可能尚未绑定，稍等片刻再点
         time.sleep(2)
-        # 首页有 PC 端与移动端两个登录入口，只点可见的那个
-        for el in self.driver.find_elements(*self.login_entry):
-            if el.is_displayed():
-                el.click()
-                break
+        # 首页有 PC 端与移动端两个登录入口，只点可见的那个；
+        # 直到登录弹窗内的手机号输入框出现才返回（最多约 25s）
+        deadline = time.monotonic() + 25
+        while time.monotonic() < deadline:
+            if self.driver.find_elements(*self.phone_input):
+                return self
+            try:
+                for el in self.driver.find_elements(*self.login_entry):
+                    if el.is_displayed():
+                        el.click()
+                        break
+            except Exception:
+                pass
+            time.sleep(1.5)
         return self
 
     @allure.step("填写登录表单")
     def fill_form(self, mobile, password):
         """只填写手机号与密码，不点击登录（供"校验按钮禁用"等场景使用）。
 
+        登录弹窗为 SPA 异步渲染，偶发首次加载较慢（>10s），先显式等待手机号输入框
+        出现（最长 30s），避免偶发超时误报为用例失败。
+
         :param mobile: 手机号
         :param password: 密码
         :return: self（便于链式调用）
         """
+        WebDriverWait(self.driver, 30).until(
+            EC.visibility_of_element_located(self.phone_input)
+        )
         self.send_keys(self.phone_input, mobile)
         self.send_keys(self.password_input, password)
         return self

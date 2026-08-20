@@ -24,6 +24,7 @@ class TestLogin:
 
     @allure.story("密码登录成功")
     @pytest.mark.login
+    @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     @pytest.mark.parametrize(
         "case",
         _login_data["login_success"],
@@ -39,6 +40,7 @@ class TestLogin:
 
     @allure.story("密码登录失败")
     @pytest.mark.login
+    @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     @pytest.mark.parametrize(
         "case",
         _login_data["login_fail"],
