@@ -19,7 +19,6 @@ class TestEnterprise:
 
     @pytest.mark.enterprise
     @allure.title("选择企业身份登录进入企业中心")
-    @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     def test_enterprise_identity_login(self, driver, screenshot_on_end):
         """登录后选择企业身份，应进入企业身份首页。"""
         home = (

@@ -227,7 +227,6 @@ def _cleanup_uploaded(page, fname):
 class TestKnowledgeBase:
     """知识库功能测试集（个人身份）。"""
 
-    @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     @allure.story("入口导航")
     @allure.title("个人身份进入知识库页")
     def test_enter_knowledge_base(self, driver, screenshot_on_end):
@@ -240,7 +239,6 @@ class TestKnowledgeBase:
         )
         assert "siteMode=c" in driver.current_url, "个人模式 URL 应携带 siteMode=c"
 
-    @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     @allure.story("列表展示")
     @allure.title("知识库文件夹列表正常展示")
     def test_file_list_display(self, driver, screenshot_on_end):
@@ -253,7 +251,6 @@ class TestKnowledgeBase:
             "根页应展示文件夹卡片"
         )
 
-    @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     @allure.story("上传")
     @allure.title("上传成功：{case[name]}")
     @pytest.mark.parametrize("case", _DATA["upload_supported"], ids=lambda c: c["name"])
@@ -268,7 +265,6 @@ class TestKnowledgeBase:
         finally:
             _cleanup_uploaded(page, fname)
 
-    @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     @allure.story("上传校验")
     @allure.title("不支持类型被拒绝：{case[name]}")
     @pytest.mark.parametrize("case", _DATA["upload_unsupported"], ids=lambda c: c["name"])
@@ -284,7 +280,6 @@ class TestKnowledgeBase:
         assert "已选择文件" not in page.body_text(), f"「{fname}」不应进入选择列表"
         page.close_upload()
 
-    @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     @allure.story("上传校验")
     @allure.title("超大文件（>20MB）被拒绝")
     def test_upload_oversized(self, driver, screenshot_on_end):
@@ -299,7 +294,6 @@ class TestKnowledgeBase:
         assert toast and "超过20MB" in toast, f"应提示超过 20MB 限制，实际：{toast}"
         page.close_upload()
 
-    @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     @allure.story("搜索")
     @allure.title("搜索命中：{case[name]}")
     @pytest.mark.parametrize("case", _DATA["search_hit"], ids=lambda c: c["name"])
@@ -317,7 +311,6 @@ class TestKnowledgeBase:
         )
         page.clear_search()
 
-    @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     @allure.story("搜索")
     @allure.title("搜索无结果：{case[name]}")
     @pytest.mark.parametrize("case", _DATA["search_no_result"], ids=lambda c: c["name"])
@@ -330,7 +323,6 @@ class TestKnowledgeBase:
         assert "未找到匹配的文件夹" in page.body_text(), "空结果提示应包含「未找到匹配的文件夹」"
         page.clear_search()
 
-    @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     @allure.story("删除")
     @allure.title("删除知识文件")
     def test_delete_file(self, driver, screenshot_on_end):
@@ -345,7 +337,6 @@ class TestKnowledgeBase:
         assert "确定要删除" in alert_text, f"应弹出原生删除确认框，实际：{alert_text}"
         assert not page.file_exists(target), f"删除后「{target}」应从列表移除"
 
-    @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     @allure.story("收藏面板")
     @allure.title("打开「我的收藏」面板")
     def test_favorites_panel(self, driver, screenshot_on_end):
@@ -359,7 +350,6 @@ class TestKnowledgeBase:
         for cat in _DATA["favorites_categories"]:
             assert cat in body, f"收藏面板应展示分类 Tab：{cat}"
 
-    @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     @allure.story("收藏面板")
     @allure.title("收藏分类切换：{category}")
     @pytest.mark.parametrize(
@@ -373,7 +363,6 @@ class TestKnowledgeBase:
 
         assert "项收藏" in page.body_text(), f"切换分类「{category}」后收藏面板应保持打开"
 
-    @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     @allure.story("图谱面板")
     @allure.title("打开「知识图谱」面板")
     def test_graph_panel(self, driver, screenshot_on_end):
@@ -386,7 +375,6 @@ class TestKnowledgeBase:
         for name in _DATA["graph_filters"]:
             assert name in body, f"图谱面板应展示节点筛选：{name}"
 
-    @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     @allure.story("图谱面板")
     @allure.title("图谱节点筛选：{name}")
     @pytest.mark.parametrize("name", _DATA["graph_filters"], ids=lambda c: c)

@@ -81,7 +81,6 @@ class TestWorkCreation:
 
     @allure.story("工作创作页入口")
     @allure.title("工作创作页展示全部功能入口")
-    @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     def test_work_creation_lists_all_features(self, driver, screenshot_on_end):
         """工作创作页应列出三类工具分组与全部 14 个功能入口。"""
         page = _login_to_work_creation(driver)
@@ -93,7 +92,6 @@ class TestWorkCreation:
 
     @allure.story("工作创作页")
     @allure.title("工作创作页工具搜索输入")
-    @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     def test_work_creation_search(self, driver, screenshot_on_end):
         """工作创作页搜索框可输入关键字并保留（WORK-002）。
 
@@ -110,7 +108,6 @@ class TestWorkCreation:
 
     @allure.story("功能页导航")
     @allure.title("进入功能页：{case[name]}")
-    @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     @pytest.mark.parametrize("case", features, ids=lambda c: c["name"])
     def test_feature_navigation(self, driver, screenshot_on_end, case):
         """点击功能卡片后，应跳转到对应功能页（URL + 标题）。"""
@@ -125,7 +122,6 @@ class TestWorkCreation:
 
     @allure.story("必填校验")
     @allure.title("空表单提交校验：{case[name]}")
-    @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     @pytest.mark.parametrize("case", _validation_params(), ids=lambda c: c["name"])
     def test_feature_required_validation(self, driver, screenshot_on_end, case):
         """空表单直接提交，应出现校验提示（alert）且不进入生成页。
@@ -139,7 +135,6 @@ class TestWorkCreation:
 
     @allure.story("完整生成流程")
     @allure.title("完整生成：{case[name]}")
-    @pytest.mark.skip(reason="临时跳过，待补充新的用例")
     @pytest.mark.parametrize("case", _full_generation_params(), ids=lambda c: c["name"])
     def test_feature_full_generation(self, driver, screenshot_on_end, case):
         """填写表单 → 提交 → 等待 AI 生成完成 → 断言结果内容（消耗职策点）。"""
