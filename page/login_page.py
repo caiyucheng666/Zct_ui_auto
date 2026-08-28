@@ -34,6 +34,7 @@ class LoginPage(BasePage):
     password_input = (By.XPATH, '//input[@placeholder="请输入密码"]')
     submit_btn = (By.XPATH, '//button[@type="submit"]')
     # 身份选择弹窗
+
     identity_title = (By.XPATH, '//h3[normalize-space(.)="请选择登录身份"]')
     personal_option = (By.XPATH, f'//h4[normalize-space(.)="{IDENTITY_PERSONAL}"]')
     enterprise_option = (By.XPATH, f'//h4[normalize-space(.)="{IDENTITY_ENTERPRISE}"]')
@@ -111,9 +112,10 @@ class LoginPage(BasePage):
         from page.personal_page import PersonalHomePage
         return PersonalHomePage(self.driver)
 
+
     @allure.step("选择企业身份登录")
     def select_enterprise(self):
-        """点击企业名称（如"浙江深佳科技有限公司"），进入企业身份首页。
+        """点击企业名称，进入企业身份首页。
 
         :return: EnterpriseHomePage 实例
         """

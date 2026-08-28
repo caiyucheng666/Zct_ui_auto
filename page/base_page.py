@@ -14,6 +14,7 @@ POM 元素的底层基类（Base Page）。
 6. 元素存在性 / 页面文本断言辅助
 """
 import logging
+from asyncio import timeout
 
 import allure
 from allure_commons.types import AttachmentType
@@ -109,6 +110,8 @@ class BasePage:
         :return: True 表示元素出现，False 表示超时未出现
         """
         try:
+            # wait  = WebDriverWait(self.driver, timeout)
+            # wait.until(EC.visibility_of_element_located(locator))
             WebDriverWait(self.driver, timeout).until(
                 EC.visibility_of_element_located(locator)
             )
@@ -125,9 +128,9 @@ class BasePage:
         :return: self（便于链式调用）
         """
         WebDriverWait(self.driver, timeout).until(
+            # 找<body>
             lambda d: text in d.find_element(By.TAG_NAME, "body").text
         )
-        return self
 
     @allure.step("获取页面正文文本")
     def body_text(self):

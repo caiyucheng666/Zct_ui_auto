@@ -39,7 +39,7 @@ def _full_generation_params():
             marks.append(pytest.mark.skip(reason=c["skip_reason"]))
         if c.get("xfail_reason"):
             marks.append(pytest.mark.xfail(reason=c["xfail_reason"], strict=False))
-        params.append(pytest.param(c, id=c["name"], marks=marks))
+        params.append(pytest.param(c, marks=marks))
     return params
 
 
@@ -54,7 +54,7 @@ def _validation_params():
         marks = []
         if c.get("no_submit_validation"):
             marks.append(pytest.mark.skip(reason="该功能无空表单提交按钮，跳过校验用例"))
-        params.append(pytest.param(c, id=c["name"], marks=marks))
+        params.append(pytest.param(c, marks=marks))
     return params
 
 
