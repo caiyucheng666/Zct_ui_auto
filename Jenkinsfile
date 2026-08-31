@@ -51,14 +51,18 @@ pipeline {
         stage('运行测试') {
             steps {
                 // 测试账号从 Jenkins 凭据注入环境变量（zct-phone / zct-password）
-                withCredentials([
-                    string(credentialsId: 'zct-phone', variable: 'ZCT_PHONE'),
-                    string(credentialsId: 'zct-password', variable: 'ZCT_PASSWORD')
-                ]) {
-                    bat '''
-                    if not exist reports mkdir reports
-                    .venv\\Scripts\\python.exe -m pytest --junitxml=./reports/junit.xml
-                    '''
+                // catchError：即使有用例失败（pytest 返回非 0），也让流水线继续跑到 Allure 阶段，
+                // 保证失败时也能生成报告；最终构建结果仍记为 FAILURE，触发失败邮件。
+                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                    withCredentials([
+                        string(credentialsId: 'zct-phone', variable: 'ZCT_PHONE'),
+                        string(credentialsId: 'zct-password', variable: 'ZCT_PASSWORD')
+                    ]) {
+                        bat '''
+                        if not exist reports mkdir reports
+                        .venv\\Scripts\\python.exe -m pytest --junitxml=./reports/junit.xml
+                        '''
+                    }
                 }
             }
         }
