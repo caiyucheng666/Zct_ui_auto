@@ -37,6 +37,10 @@ pipeline {
 
         stage('准备环境') {
             steps {
+                // 若通过 /build 直接触发（不带参数），PYTHON 会是空串，这里兜底用默认路径
+                script {
+                    env.PYTHON = params.PYTHON ?: 'C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python311\\python.exe'
+                }
                 bat '''
                 if not exist .venv\\Scripts\\python.exe "%PYTHON%" -m venv .venv
                 .venv\\Scripts\\python.exe -m pip install -r requirements.txt -q --disable-pip-version-check
@@ -61,6 +65,9 @@ pipeline {
 
         stage('生成 Allure 报告') {
             steps {
+                script {
+                    env.ALLURE = params.ALLURE ?: 'D:\\allure-2.24.1\\bin\\allure.bat'
+                }
                 bat '"%ALLURE%" generate ./temps -o ./reports --clean'
             }
         }
@@ -74,6 +81,8 @@ pipeline {
         success {
             emailext(
                 to: '2556096448@qq.com',
+                from: '2556096448@qq.com',
+                replyTo: '2556096448@qq.com',
                 subject: "[自动化测试] 通过 ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 mimeType: 'text/html',
                 body: """<h3>职策佳平台 UI 自动化测试 —— 通过</h3>
@@ -85,6 +94,8 @@ pipeline {
         failure {
             emailext(
                 to: '2556096448@qq.com',
+                from: '2556096448@qq.com',
+                replyTo: '2556096448@qq.com',
                 subject: "[自动化测试] 失败 ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 mimeType: 'text/html',
                 body: """<h3>职策佳平台 UI 自动化测试 —— 失败</h3>
