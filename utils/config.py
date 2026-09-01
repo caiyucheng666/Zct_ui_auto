@@ -26,6 +26,10 @@ BASE_URL = "https://zct.aisjkj.com/"
 # chromedriver 路径（放在项目根目录，保证项目自包含、可移植）
 CHROMEDRIVER_PATH = os.path.join(BASE_DIR, "chromedriver.exe")
 
+# 静默执行开关：设为 1/true/yes/on 时 Chrome 以 headless 模式运行（不弹浏览器窗口），
+# 供 Jenkins 定时任务使用；本地手动调试建议保持关闭以便观察界面。
+HEADLESS = os.environ.get("HEADLESS", "").strip().lower() in ("1", "true", "yes", "on")
+
 
 def _load_dotenv():
     """读取项目根目录 .env 文件（KEY=VALUE 每行一条，忽略空行与 # 注释）。

@@ -13,7 +13,7 @@ from allure_commons.types import AttachmentType
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 
-from utils.config import CHROMEDRIVER_PATH
+from utils.config import CHROMEDRIVER_PATH, HEADLESS
 
 
 @pytest.fixture(scope="function")
@@ -27,6 +27,11 @@ def driver():
     # 规避网站对自动化浏览器的检测
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    # 静默模式：Jenkins 定时跑时 HEADLESS=true，Chrome 无窗口运行；本地调试保持关闭
+    if HEADLESS:
+        options.add_argument("--headless=new")
+        options.add_argument("--window-size=1920,1080")
+        options.add_argument("--disable-gpu")
 
     driver = webdriver.Chrome(service=Service(CHROMEDRIVER_PATH), options=options)
     driver.implicitly_wait(3)

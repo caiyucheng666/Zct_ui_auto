@@ -5,6 +5,11 @@
 pipeline {
     agent any
 
+    environment {
+        // 定时跑用 headless，Chrome 不弹窗口；本地手动调试时去掉这一行即可看到界面
+        HEADLESS = 'true'
+    }
+
     triggers {
         // 每天 09:30 触发一次
         cron('30 9 * * *')
